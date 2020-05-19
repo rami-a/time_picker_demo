@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
           textTheme: ButtonTextTheme.primary,
         ),
         toggleableActiveColor: ColorScheme.light().primary,
+        highlightColor: Colors.transparent
       ),
       home: MyHomePage(),
     );
