@@ -34,6 +34,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   TimeOfDay _time = TimeOfDay.now();
   bool _isSlow = false;
+  bool _use24hour = false;
   List<bool> _isSelected = [true, false, false];
 
   double get _textScale {
@@ -48,7 +49,10 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (context, child) {
 
         return MediaQuery(
-          data: MediaQuery.of(context).copyWith(textScaleFactor: _textScale),
+          data: MediaQuery.of(context).copyWith(
+            textScaleFactor: _textScale,
+            alwaysUse24HourFormat: _use24hour,
+          ),
           child: child,
         );
       }
@@ -69,56 +73,73 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                RaisedButton(
-                  onPressed: _selectTime,
-                  child: Text('SELECT TIME'),
-                ),
-                SizedBox(height: 16),
-                Text(
-                  'Selected time: ${_time.format(context)}',
-                ),
-                SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Slow Motion'),
-                    Switch(
-                      value: _isSlow,
-                      onChanged: (value) {
-                        setState(() {
-                          _isSlow = value;
-                          timeDilation = _isSlow ? 5 : 1;
-                        });
-                      },
-                    )
-                  ],
-                ),
-                SizedBox(height: 16),
-                Text('Text scale:'),
-                SizedBox(height: 4),
-                ToggleButtons(
-                  children: <Widget>[
-                    Text('1.0'),
-                    Text('1.3'),
-                    Text('2.0'),
-                  ],
-                  onPressed: (int index) {
-                    setState(() {
-                      for (int buttonIndex = 0; buttonIndex < _isSelected.length; buttonIndex++) {
-                        if (buttonIndex == index) {
-                          _isSelected[buttonIndex] = true;
-                        } else {
-                          _isSelected[buttonIndex] = false;
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  RaisedButton(
+                    onPressed: _selectTime,
+                    child: Text('SELECT TIME'),
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    'Selected time: ${_time.format(context)}',
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Use 24h'),
+                      Switch(
+                        value: _use24hour,
+                        onChanged: (value) {
+                          setState(() {
+                            _use24hour = value;
+                          });
+                        },
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Slow Motion'),
+                      Switch(
+                        value: _isSlow,
+                        onChanged: (value) {
+                          setState(() {
+                            _isSlow = value;
+                            timeDilation = _isSlow ? 5 : 1;
+                          });
+                        },
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  Text('Text scale:'),
+                  SizedBox(height: 4),
+                  ToggleButtons(
+                    children: <Widget>[
+                      Text('1.0'),
+                      Text('1.3'),
+                      Text('2.0'),
+                    ],
+                    onPressed: (int index) {
+                      setState(() {
+                        for (int buttonIndex = 0; buttonIndex < _isSelected.length; buttonIndex++) {
+                          if (buttonIndex == index) {
+                            _isSelected[buttonIndex] = true;
+                          } else {
+                            _isSelected[buttonIndex] = false;
+                          }
                         }
-                      }
-                    });
-                  },
-                  isSelected: _isSelected,
-                ),
-              ],
+                      });
+                    },
+                    isSelected: _isSelected,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
