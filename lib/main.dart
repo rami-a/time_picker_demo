@@ -1,31 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:intl/intl.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _isDark = false;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Time Picker Demo',
+      themeMode: _isDark ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeData(
+        brightness: Brightness.light,
         primaryColor: ColorScheme.light().primary,
         colorScheme: ColorScheme.light(),
         buttonTheme: ButtonThemeData(
           textTheme: ButtonTextTheme.primary,
         ),
         toggleableActiveColor: ColorScheme.light().primary,
-        highlightColor: Colors.transparent
+        highlightColor: Colors.transparent,
       ),
-      home: MyHomePage(),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: ColorScheme.dark().primary,
+        colorScheme: ColorScheme.dark(),
+        buttonTheme: ButtonThemeData(
+          textTheme: ButtonTextTheme.primary,
+        ),
+        toggleableActiveColor: ColorScheme.dark().primary,
+        highlightColor: Colors.transparent,
+      ),
+      home: MyHomePage(
+        onDarkModeChanged: (value) {
+          setState(() {
+            _isDark = value;
+          });
+        },
+      ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key key, this.onDarkModeChanged}) : super(key: key);
+
+  final ValueChanged<bool> onDarkModeChanged;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -34,6 +61,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   TimeOfDay _time = TimeOfDay.now();
   bool _isSlow = false;
+  bool _isDark = false;
   bool _use24hour = false;
   List<bool> _isSelected = [true, false, false];
 
@@ -95,6 +123,22 @@ class _MyHomePageState extends State<MyHomePage> {
                         onChanged: (value) {
                           setState(() {
                             _use24hour = value;
+                          });
+                        },
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Dark mode'),
+                      Switch(
+                        value: _isDark,
+                        onChanged: (value) {
+                          setState(() {
+                            _isDark = value;
+                            widget.onDarkModeChanged(_isDark);
                           });
                         },
                       )
