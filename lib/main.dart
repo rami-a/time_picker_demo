@@ -109,11 +109,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: _selectTime,
                     child: Text('SELECT TIME'),
                   ),
-                  SizedBox(height: 16),
+                  SizedBox(height: 8),
                   Text(
                     'Selected time: ${_time.format(context)}',
                   ),
-                  SizedBox(height: 16),
+                  SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -128,7 +128,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                     ],
                   ),
-                  SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -144,7 +143,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                     ],
                   ),
-                  SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -160,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                     ],
                   ),
-                  SizedBox(height: 16),
+                  SizedBox(height: 8),
                   Text('Text scale:'),
                   SizedBox(height: 4),
                   ToggleButtons(
