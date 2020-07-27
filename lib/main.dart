@@ -14,34 +14,33 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   bool _isDark = false;
 
+  ThemeData _themeData(ColorScheme colorScheme) {
+    return ThemeData(
+      brightness: colorScheme.brightness,
+      primaryColor: colorScheme.primary,
+      colorScheme: colorScheme,
+      buttonTheme: ButtonThemeData(
+        textTheme: ButtonTextTheme.primary,
+      ),
+      toggleableActiveColor: colorScheme.primary,
+      highlightColor: Colors.transparent,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final ColorScheme lightScheme = ColorScheme.light();
+    final ColorScheme highContrastLightScheme = ColorScheme.highContrastLight();
+    final ColorScheme darkScheme = ColorScheme.dark();
+    final ColorScheme highContrastDarkScheme = ColorScheme.highContrastDark();
     return MaterialApp(
-//      locale: Locale('zh', 'ZH'),
-//      supportedLocales: [Locale('zh', 'ZH')],
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
       title: 'Time Picker Demo',
       themeMode: _isDark ? ThemeMode.dark : ThemeMode.light,
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: ColorScheme.light().primary,
-        colorScheme: ColorScheme.light(),
-        buttonTheme: ButtonThemeData(
-          textTheme: ButtonTextTheme.primary,
-        ),
-        toggleableActiveColor: ColorScheme.light().primary,
-        highlightColor: Colors.transparent,
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor: ColorScheme.dark().primary,
-        colorScheme: ColorScheme.dark(),
-        buttonTheme: ButtonThemeData(
-          textTheme: ButtonTextTheme.primary,
-        ),
-        toggleableActiveColor: ColorScheme.dark().primary,
-        highlightColor: Colors.transparent,
-      ),
+      theme: _themeData(lightScheme),
+      highContrastTheme: _themeData(highContrastLightScheme),
+      darkTheme: _themeData(darkScheme),
+      highContrastDarkTheme: _themeData(highContrastDarkScheme),
       home: MyHomePage(
         onDarkModeChanged: (value) {
           setState(() {
